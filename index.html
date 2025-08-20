@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doutora Juliana Perez - Pacientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        form {
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background: #f0f0f0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        a {
+            color: red;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>👩‍⚕️ Doutora Juliana Perez - Pacientes</h1>
+
+    <form method="POST" action="/add">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="number" name="idade" placeholder="Idade" required>
+        <input type="text" name="telefone" placeholder="Telefone">
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+        {% for paciente in pacientes %}
+        <tr>
+            <td>{{ paciente[0] }}</td>
+            <td>{{ paciente[1] }}</td>
+            <td>{{ paciente[2] }}</td>
+            <td>{{ paciente[3] }}</td>
+            <td><a href="/delete/{{ paciente[0] }}">Excluir</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
