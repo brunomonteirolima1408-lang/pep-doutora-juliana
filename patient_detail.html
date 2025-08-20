@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>{{ p['name'] }}</h2>
+<p><strong>CPF:</strong> {{ p['cpf'] or '-' }} |
+<strong>Nasc.:</strong> {{ p['birthdate'] or '-' }} |
+<strong>Sexo:</strong> {{ p['sex'] or '-' }}</p>
+<p><strong>Telefone:</strong> {{ p['phone'] or '-' }} |
+<strong>Endereço:</strong> {{ p['address'] or '-' }}</p>
+<p><strong>Alergias:</strong> {{ p['allergies'] or '-' }}</p>
+<p><strong>Condições:</strong> {{ p['conditions'] or '-' }}</p>
+<p><strong>Uso contínuo:</strong> {{ p['medications'] or '-' }}</p>
+<p><strong>Obs.:</strong> {{ p['notes'] or '-' }}</p>
+
+<div class="panes">
+  <section>
+    <h3>Registrar Consulta</h3>
+    <form method="post" action="{{ url_for('add_consultation', patient_id=p['id']) }}" class="form">
+      <label>Anamnese <textarea name="anamnesis"></textarea></label>
+      <label>Exame Físico <textarea name="physical_exam"></textarea></label>
+      <label>Diagnóstico <textarea name="diagnosis"></textarea></label>
+      <label>Conduta/Plano <textarea name="plan"></textarea></label>
+      <button type="submit">Salvar Consulta</button>
+    </form>
+
+    <h4>Histórico de Consultas</h4>
+    <ul class="cards">
+      {% for c in consultations %}
+      <li>
+        <strong>{{ c['date']|brdate }}</strong><br>
+        <em>Diagnóstico:</em> {{ c['diagnosis'] or '-' }}
+      </li>
+      {% else %}
+      <li>Nenhuma consulta registrada.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section>
+    <h3>Prescrição Rápida</h3>
+    <form method="post" action="{{ url_for('add_prescription', patient_id=p['id']) }}" class="form">
+      <label>Itens (um por linha) <textarea name="items" placeholder="Paracetamol 750 mg — Tomar 1 comprimido a cada 8h por 3 dias"></textarea></label>
+      <label>Observações <textarea name="observations" placeholder="Retornar em 7 dias. Não dirigir sob efeito de medicação."></textarea></label>
+      <button type="submit">Salvar Receita</button>
+    </form>
+
+    <h4>Receitas</h4>
+    <ul class="cards">
+      {% for r in prescriptions %}
+      <li>
+        <strong>{{ r['date']|brdate }}</strong><br>
+        <a href="{{ url_for('prescription_pdf', prescription_id=r['id']) }}">⬇️ Baixar PDF</a>
+      </li>
+      {% else %}
+      <li>Nenhuma receita registrada.</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+
+<a href="{{ url_for('patients') }}" class="button">← Voltar</a>
+{% endblock %}

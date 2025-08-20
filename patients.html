@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Pacientes</h2>
+<form method="get" action="{{ url_for('patients') }}" class="search">
+  <input type="text" name="q" placeholder="Buscar por nome ou CPF" value="{{ q }}">
+  <button type="submit">Buscar</button>
+  <a class="button" href="{{ url_for('new_patient') }}">+ Novo</a>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>CPF</th>
+      <th>Telefone</th>
+      <th>Nascimento</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in items %}
+    <tr onclick="location.href='{{ url_for('patient_detail', patient_id=p['id']) }}'">
+      <td>{{ p['name'] }}</td>
+      <td>{{ p['cpf'] or '-' }}</td>
+      <td>{{ p['phone'] or '-' }}</td>
+      <td>{{ p['birthdate'] or '-' }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">Nenhum paciente encontrado.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
